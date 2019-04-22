@@ -7,19 +7,31 @@ domain=ashishsaxena7outlook.onmicrosoft.com
 
 # login
 
+if ! [ az ]; then
+echo "Azure not installed"
+exit 1
+fi
+
 az login u-$user
 
 # check administrator status
-admin = $(az role assignment list --include-classic-administrators --query "[?id=='NA(classic admins)'].principalName" | grep -E $user)
+admin = $(az role assignment list --include-classic-administrators --query "[?id=='NA(classic admins)'].principalName") | grep -E $user
 if [ -z $admin ]; then
     echo "Not an Admin, cannot proceed"
     exit 1
 fi
 
 
+case $command
+    create ) create();
+    delete ) delete();
+    assign ) assignment();
+
+esac
+
 # Functions
 
-create(){
+create($userdisplayname, $domain, $subscription){
     userdisplayname = $1
     random=Arlington${time}
     az ad user create --display-name $userdisplayname --password $random --user-principal-name $userdisplayname@$domain
@@ -47,12 +59,25 @@ delete(){
 }
 
 
-assignment(){
-    assignment = $1
+assignment($user, $role, $action){
+    action = $1
     user =$2
     role = $3
 
-    az role assignment $assignment --assignee $user --role $role
+    if ! [ user ]; then
+        echo "Invalid user request"
+        exit 1
+    fi
+
+    if [user has role]; then
+        echo 'yes/no'
+
+        case read answer
+            yes ) az role assignment delete --assignee $user --role $role
+    else
+        az role assignment create --assignee $user --role $role
+    fi
+    az role assignment $action --assignee $user --role $role
 }
 
 $command $4 $5 $6

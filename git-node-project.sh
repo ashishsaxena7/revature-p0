@@ -1,26 +1,34 @@
 #!/bin/bash
 
-# Verification
+# Verification of tools
 
 if ![ git ]; then
     echo "Git not Installed, Please repeat Linux-Setup"
     exit 1
 fi
 
-if ![ az ]; then
-    "echo Azure not Installed, Please repeat Linux-Setup"
-    exit 1
-fi
+# if ![ az ]; then
+#     echo "Azure not Installed, Please repeat Linux-Setup"
+#     exit 1
+# fi
 
 if ![ node ]; then
-    "echo Node not Installed, Please repeat Linux-Setup"
+    echo "Node not Installed, Please repeat Linux-Setup"
     exit 1
 fi
 
-# Create project structure
+# Ensure a directory
+dirpath=$2
 
-git init
-npm init -y
+
+if [ directory not empty && force flag false ]; then
+if ! [ $dirpath -f]
+    echo "Directory already exists and is non-empty"
+    exit 1
+fi
+
+
+# Create project structure
 
 mkdir .docker
 
@@ -61,6 +69,15 @@ touch \
   CHANGELOG.md \
   LICENSE.txt \
 README.md
+
+
+# Convert to repository
+
+git config
+git init
+npm init
+npm scripts
+
 
 # Push to github
 

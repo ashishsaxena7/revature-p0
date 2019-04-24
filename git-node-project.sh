@@ -1,36 +1,34 @@
 #!/bin/bash
+#Automate process of setting up a new git repository structure, and create a web node-based project
+
 
 # Verification of tools
 
-if ![ git ]; then
+if  [ -z $(which git) ]; then
     echo "Git not Installed, Please repeat Linux-Setup"
     exit 1
 fi
 
-# if ![ az ]; then
-#     echo "Azure not Installed, Please repeat Linux-Setup"
-#     exit 1
-# fi
-
-if ![ node ]; then
+if [ -z  $(which node) ]; then
     echo "Node not Installed, Please repeat Linux-Setup"
     exit 1
 fi
 
-# Ensure a directory
-dirpath=$2
+# Define directory path
+dirpath=$1
 
 
-if [ directory not empty && force flag false ]; then
-if ! [ $dirpath -f]
-    echo "Directory already exists and is non-empty"
-    exit 1
-fi
+# if [ directory not empty && force flag false ]; then
+if [ -n "$(ls -A $dirpath)"]; then
+echo "Directory already exists and is non-empty"
+exit 1
+fi 
+
+cd $dirpath
 
 
 # Create project structure
-
-mkdir .docker
+mkdir $dirpath/.docker
 
 touch \
   .docker/dockerfile \
@@ -70,19 +68,25 @@ touch \
   LICENSE.txt \
 README.md
 
+# Convert to repository and node project
+username=$2
+useremail=$3
 
-# Convert to repository
-
-git config
 git init
+git config user.name $username
+git config user.email $useremail
 npm init
-npm scripts
 
 
-# Push to github
 
-# git init
-# cd ~/revature/scripts
-# git add 
-# git commit
-
+# while getopts ":f:" opt; do
+#   case $opt in
+#     f)
+#       makestructure()
+#     \?)
+#     echo "Directory already exists and is non-empty"
+#     exit 1
+#     esac
+# elif
+# makestructure()
+# fi

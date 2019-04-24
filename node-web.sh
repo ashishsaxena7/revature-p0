@@ -1,37 +1,58 @@
 #!/bin/bash
+# Automate the process of starting and stopping a node application
 
-command=$2
-# starting a server; execute files
-name=$3
+command=$1
+fileloc=$2
 
-if ![ node ]; then
+# Confirm node installation
+
+if ! [ node ]; then
 echo "Need to install nodejs"
 exit 1
 fi
 
-# case
-case $command
-    start ) start();
-    stop ) stop();
-esac
+# check if directory is of node format
+cd $fileloc
 
-# create functions
+if ! [ -e package.json]; then
+echo "Not a node.js application"
+exit 1
+fi
+
+# Functions
 
 start(){
 
-    npm scripts
+# Check if start script is implanted in package.json
+test=$(cat package.json | grep -E "start")
+if [-z $test ]; then
+echo "Need start script active"
+exit 1
+fi
 
-    if [ -e $name ]; then
-    node $name
-    else
-    echo "File does not exist"
-    fi
+npm start
 }
 
 stop(){
-    npm scripts
+
+# Check if stop script is implanted in package.json
+test2=$(cat package.json | grep -E "stop")
+if [-z $test2 ]; then
+echo "Need stop script active"
+exit 1
+fi
+
+npm stop
 }
 
-$command $name
+$command $fileloc
 
-exit 0
+# case
+# case $command
+#     start ) start();
+#     stop ) stop();
+# esac
+
+# create functions
+
+

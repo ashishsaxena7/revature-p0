@@ -5,13 +5,13 @@
 # Verification of tools
 
 if  [ -z $(which git) ]; then
-    echo "Git not Installed, Please repeat Linux-Setup"
-    exit 1
+echo "Git not Installed, Please repeat Linux-Setup"
+exit 1
 fi
 
 if [ -z  $(which node) ]; then
-    echo "Node not Installed, Please repeat Linux-Setup"
-    exit 1
+echo "Node not Installed, Please repeat Linux-Setup"
+exit 1
 fi
 
 # Define directory path
@@ -19,9 +19,11 @@ dirpath=$1
 
 
 # if [ directory not empty && force flag false ]; then
+
+
 if [ -n "$(ls -A $dirpath)" ]; then
-  echo "Directory already exists and is non-empty"
-  exit 1
+echo "Directory already exists and is non-empty"
+exit 1
 fi 
 
 cd $dirpath

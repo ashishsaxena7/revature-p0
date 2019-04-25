@@ -19,7 +19,7 @@ dirpath=$1
 
 
 # if [ directory not empty && force flag false ]; then
-if [ -n "$(ls -A $dirpath)"]; then
+if [ -n "$(ls -A $dirpath)" ]; then
 echo "Directory already exists and is non-empty"
 exit 1
 fi 
